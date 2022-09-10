@@ -51,9 +51,11 @@
                 android:text="Email" />
 
             <EditText
+                android:id="@+id/lblEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="yourEmail@email.com" />
+                android:hint="yourEmail@email.com"
+                android:inputType="textEmailAddress" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -62,11 +64,14 @@
                 android:text="Password" />
 
             <EditText
+                android:id="@+id/lblPwd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="********" />
+                android:hint="********"
+                android:inputType="textPassword" />
 
             <Button
+                android:id="@+id/btnRegisterUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
