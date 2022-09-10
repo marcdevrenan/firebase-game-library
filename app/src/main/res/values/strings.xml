@@ -7,7 +7,10 @@
 
     <!--    LoginFragment-->
     <string name="text_btn_login_fragment">Login</string>
-    
+
     <!--    RegisterFragment-->
     <string name="text_btn_register_fragment">Register</string>
+    
+    <!--    FormFragment-->
+    <string name="text_title_form_fragment">Adding a Game</string>
 </resources>

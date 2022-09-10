@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
 
         adapter.addFragment(LibraryFragment(), "Library")
         adapter.addFragment(PlayingFragment(), "Playing")
-        adapter.addFragment(AchievedFragment(), "Achievement")
+        adapter.addFragment(AchievedFragment(), "Achieved")
 
         binding.viewPager.offscreenPageLimit = adapter.itemCount
 
