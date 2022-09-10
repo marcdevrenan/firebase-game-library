@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email" />
+            android:text="@string/text_email" />
 
         <EditText
             android:id="@+id/lblEmail"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Password" />
+            android:text="@string/text_password" />
 
         <EditText
             android:id="@+id/lblPwd"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Login"
+            android:text="@string/text_btn_login_fragment"
             android:textAllCaps="false" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingVertical="8dp"
-                android:text="Create account"
+                android:text="@string/text_create_account"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
