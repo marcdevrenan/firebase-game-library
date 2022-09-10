@@ -31,6 +31,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
 
+        isAuthenticated()
         initInteractions()
     }
 
@@ -55,7 +56,11 @@ class LoginFragment : Fragment() {
                 if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
-
+                    Toast.makeText(
+                        requireContext(),
+                        "${task.exception?.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
     }
@@ -72,6 +77,13 @@ class LoginFragment : Fragment() {
             }
         } else {
             Toast.makeText(requireContext(), "Enter a email", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun isAuthenticated() {
+        auth = Firebase.auth
+        if (auth.currentUser != null) {
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 }

@@ -1,5 +1,16 @@
 <resources>
+    <!--    Generics-->
     <string name="app_name">FirebaseGameLibrary</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_email">Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_create_account">Create Account</string>
+
+    <!--    LoginFragment-->
+    <string name="text_btn_login_fragment">Login</string>
+
+    <!--    RegisterFragment-->
+    <string name="text_btn_register_fragment">Register</string>
+    
+    <!--    FormFragment-->
+    <string name="text_title_form_fragment">Adding a Game</string>
 </resources>
