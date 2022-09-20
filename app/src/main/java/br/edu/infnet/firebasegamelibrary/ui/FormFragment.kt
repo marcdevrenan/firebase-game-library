@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.edu.infnet.firebasegamelibrary.R
+import br.edu.infnet.firebasegamelibrary.utils.FirebaseUtils
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentFormBinding
+import br.edu.infnet.firebasegamelibrary.model.Game
 
 
 class FormFragment : Fragment() {
@@ -104,8 +107,7 @@ class FormFragment : Fragment() {
     }
 
     private fun saveCard() {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .child(game.id)

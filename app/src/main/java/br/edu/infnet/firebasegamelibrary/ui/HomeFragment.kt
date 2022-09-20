@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import br.edu.infnet.firebasegamelibrary.*
+import br.edu.infnet.firebasegamelibrary.adapter.ViewPagerAdapter
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +20,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private var userName: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +36,7 @@ class HomeFragment : Fragment() {
 
         configTabLayout()
         initInteractions()
+        showUserInfo()
     }
 
     private fun initInteractions() {
@@ -57,6 +61,11 @@ class HomeFragment : Fragment() {
             tab.text = adapter.getTitle(position)
         }.attach()
 
+    }
+
+    private fun showUserInfo() {
+        userName = auth.currentUser?.email.toString()
+        binding.txtUserLogin.text = "Logged as: $userName"
     }
 
     override fun onDestroyView() {

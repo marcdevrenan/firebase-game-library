@@ -1,8 +1,9 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
+import br.edu.infnet.firebasegamelibrary.R
 import br.edu.infnet.firebasegamelibrary.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
