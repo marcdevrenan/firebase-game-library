@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentPlayingBinding
 import com.google.firebase.database.DataSnapshot
@@ -50,6 +52,7 @@ class PlayingFragment : Fragment() {
                         }
                         gameList.reverse()
                         initAdapter()
+                        binding.txtInfo.isVisible = false
                     } else {
                         binding.txtInfo.text = "You have no games in the library"
                     }
@@ -81,6 +84,11 @@ class PlayingFragment : Fragment() {
             GameAdapter.SELECT_ACHIEVED -> {
                 game.status = 2
                 updateGame(game)
+            }
+            GameAdapter.SELECT_EDIT -> {
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToFormFragment(game)
+                findNavController().navigate(action)
             }
             GameAdapter.SELECT_REMOVE -> {
                 deleteGame(game)
