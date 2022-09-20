@@ -46,5 +46,10 @@
         android:id="@+id/formFragment"
         android:name="br.edu.infnet.firebasegamelibrary.FormFragment"
         android:label="fragment_form"
-        tools:layout="@layout/fragment_form" />
+        tools:layout="@layout/fragment_form" >
+        <argument
+            android:name="game"
+            app:argType="br.edu.infnet.firebasegamelibrary.Game"
+            app:nullable="true" />
+    </fragment>
 </navigation>

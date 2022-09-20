@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentFormBinding
 
 
@@ -15,8 +16,9 @@ class FormFragment : Fragment() {
     private var _binding: FragmentFormBinding? = null
     private val binding get() = _binding!!
     private lateinit var game: Game
-    private var newCard: Boolean = true
-    private var cardStatus: Int = 0
+    private var newGame: Boolean = true
+    private var gameStatus: Int = 0
+    private val args: FormFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,13 +39,51 @@ class FormFragment : Fragment() {
             cardIsValid()
         }
 
+        getArgs()
+
         binding.rgStatus.setOnCheckedChangeListener { _, id ->
-            cardStatus = when (id) {
+            gameStatus = when (id) {
                 R.id.rbLibrary -> 0
                 R.id.rbPlaying -> 1
                 else -> 2
             }
         }
+    }
+
+    private fun getArgs() {
+        args.game.let {
+            if (it != null) {
+                game = it
+                gameConfig()
+            }
+        }
+    }
+
+    private fun gameConfig() {
+        newGame = false
+        gameStatus = game.status
+        binding.txtToolbar.text = "Editing game"
+
+        binding.lblTitle.setText(game.title)
+        binding.lblPublisher.setText(game.publisher)
+        binding.lblPlatform.setText(game.platform)
+        setStatus()
+    }
+
+    private fun setStatus() {
+        binding.rgStatus.check(
+            when (game.status) {
+                0 -> {
+                    R.id.rbLibrary
+                }
+                1 -> {
+                    R.id.rbPlaying
+                }
+                else -> {
+                    R.id.rbAchieved
+                }
+            }
+        )
     }
 
     private fun cardIsValid() {
@@ -52,11 +92,11 @@ class FormFragment : Fragment() {
         val platform = binding.lblPlatform.text.toString().trim()
 
         if (title.isNotEmpty()) {
-            if (newCard) game = Game()
+            if (newGame) game = Game()
             game.title = title
             game.publisher = publisher
             game.platform = platform
-            game.status = cardStatus
+            game.status = gameStatus
             saveCard()
         } else {
             Toast.makeText(requireContext(), "Empty field", Toast.LENGTH_LONG).show()
@@ -72,7 +112,7 @@ class FormFragment : Fragment() {
             .setValue(game)
             .addOnCompleteListener { card ->
                 if (card.isSuccessful) {
-                    if (newCard) {
+                    if (newGame) {
                         findNavController().popBackStack()
                         Toast.makeText(requireContext(), "Saved successfully", Toast.LENGTH_LONG)
                             .show()
@@ -86,10 +126,6 @@ class FormFragment : Fragment() {
             }.addOnFailureListener {
 
             }
-    }
-
-    private fun initAdapter() {
-        binding
     }
 
     override fun onDestroyView() {

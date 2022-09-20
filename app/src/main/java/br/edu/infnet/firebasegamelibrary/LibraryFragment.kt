@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,7 +38,9 @@ class LibraryFragment : Fragment() {
 
     private fun initInteractions() {
         binding.fabAddGame.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_formFragment)
+            val action = HomeFragmentDirections
+                .actionHomeFragmentToFormFragment(null)
+            findNavController().navigate(action)
         }
     }
 
@@ -58,6 +61,7 @@ class LibraryFragment : Fragment() {
                         }
                         gameList.reverse()
                         initAdapter()
+                        binding.txtInfo.isVisible = false
                     } else {
                         binding.txtInfo.text = "You have no games in the library"
                     }
@@ -73,8 +77,8 @@ class LibraryFragment : Fragment() {
     private fun initAdapter() {
         binding.rvLibrary.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLibrary.setHasFixedSize(true)
-        gameAdapter = GameAdapter(requireContext(), gameList) { card, int ->
-            selectedOption(card, int)
+        gameAdapter = GameAdapter(requireContext(), gameList) { game, int ->
+            selectedOption(game, int)
         }
 
         binding.rvLibrary.adapter = gameAdapter
@@ -85,6 +89,11 @@ class LibraryFragment : Fragment() {
             GameAdapter.SELECT_ACHIEVED -> {
                 game.status = 1
                 updateGame(game)
+            }
+            GameAdapter.SELECT_EDIT -> {
+                val action = HomeFragmentDirections
+                    .actionHomeFragmentToFormFragment(game)
+                findNavController().navigate(action)
             }
             GameAdapter.SELECT_REMOVE -> {
                 deleteGame(game)
