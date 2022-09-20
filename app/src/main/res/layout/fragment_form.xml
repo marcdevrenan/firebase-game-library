@@ -119,18 +119,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtStatus">
 
                 <RadioButton
+                    android:id="@+id/rbLibrary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:checked="true"
                     android:text="Library" />
 
                 <RadioButton
+                    android:id="@+id/rbPlaying"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Playing" />
 
                 <RadioButton
+                    android:id="@+id/rbAchieved"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
