@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import br.edu.infnet.firebasegamelibrary.*
+import br.edu.infnet.firebasegamelibrary.R
 import br.edu.infnet.firebasegamelibrary.adapter.ViewPagerAdapter
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentHomeBinding
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -37,6 +38,12 @@ class HomeFragment : Fragment() {
         configTabLayout()
         initInteractions()
         showUserInfo()
+        adTest()
+    }
+
+    private fun adTest() {
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     private fun initInteractions() {
