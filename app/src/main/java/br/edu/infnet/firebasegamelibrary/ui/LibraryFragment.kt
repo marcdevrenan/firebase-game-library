@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.edu.infnet.firebasegamelibrary.databinding.FragmentPlayingBinding
+import br.edu.infnet.firebasegamelibrary.utils.FirebaseUtils
+import br.edu.infnet.firebasegamelibrary.adapter.GameAdapter
+import br.edu.infnet.firebasegamelibrary.databinding.FragmentLibraryBinding
+import br.edu.infnet.firebasegamelibrary.model.Game
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
-class PlayingFragment : Fragment() {
+class LibraryFragment : Fragment() {
 
-    private var _binding: FragmentPlayingBinding? = null
+    private var _binding: FragmentLibraryBinding? = null
     private val binding get() = _binding!!
     private lateinit var gameAdapter: GameAdapter
     private val gameList = mutableListOf<Game>()
@@ -25,19 +28,27 @@ class PlayingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPlayingBinding.inflate(inflater, container, false)
+        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initInteractions()
         getGames()
     }
 
+    private fun initInteractions() {
+        binding.fabAddGame.setOnClickListener {
+            val action = HomeFragmentDirections
+                .actionHomeFragmentToFormFragment(null)
+            findNavController().navigate(action)
+        }
+    }
+
     private fun getGames() {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .addValueEventListener(object : ValueEventListener {
@@ -46,7 +57,7 @@ class PlayingFragment : Fragment() {
                         gameList.clear()
                         for (snap in snapshot.children) {
                             val game = snap.getValue(Game::class.java) as Game
-                            if (game.status == 1) {
+                            if (game.status == 0) {
                                 gameList.add(game)
                             }
                         }
@@ -68,8 +79,8 @@ class PlayingFragment : Fragment() {
     private fun initAdapter() {
         binding.rvLibrary.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLibrary.setHasFixedSize(true)
-        gameAdapter = GameAdapter(requireContext(), gameList) { card, int ->
-            selectedOption(card, int)
+        gameAdapter = GameAdapter(requireContext(), gameList) { game, int ->
+            selectedOption(game, int)
         }
 
         binding.rvLibrary.adapter = gameAdapter
@@ -77,12 +88,8 @@ class PlayingFragment : Fragment() {
 
     private fun selectedOption(game: Game, select: Int) {
         when (select) {
-            GameAdapter.SELECT_LIBRARY -> {
-                game.status = 0
-                updateGame(game)
-            }
             GameAdapter.SELECT_ACHIEVED -> {
-                game.status = 2
+                game.status = 1
                 updateGame(game)
             }
             GameAdapter.SELECT_EDIT -> {
@@ -97,8 +104,7 @@ class PlayingFragment : Fragment() {
     }
 
     private fun updateGame(game: Game) {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .child(game.id)
@@ -113,14 +119,24 @@ class PlayingFragment : Fragment() {
     }
 
     private fun deleteGame(game: Game) {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .child(game.id)
             .removeValue()
+            .addOnCompleteListener { game ->
+                if (game.isSuccessful) {
+                    Toast.makeText(requireContext(), "Successfully deleted", Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
 
         gameList.remove(game)
         gameAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

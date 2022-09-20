@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

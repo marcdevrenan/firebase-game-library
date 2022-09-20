@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import br.edu.infnet.firebasegamelibrary.utils.FirebaseUtils
+import br.edu.infnet.firebasegamelibrary.adapter.GameAdapter
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentAchievedBinding
+import br.edu.infnet.firebasegamelibrary.model.Game
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -36,8 +39,7 @@ class AchievedFragment : Fragment() {
     }
 
     private fun getGames() {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .addValueEventListener(object : ValueEventListener {
@@ -93,8 +95,7 @@ class AchievedFragment : Fragment() {
     }
 
     private fun updateGame(game: Game) {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .child(game.id)
@@ -109,8 +110,7 @@ class AchievedFragment : Fragment() {
     }
 
     private fun deleteGame(game: Game) {
-        FirebaseUtils
-            .getDatabase()
+        FirebaseUtils.getDatabase()
             .child("game")
             .child(FirebaseUtils.getUserId() ?: "")
             .child(game.id)

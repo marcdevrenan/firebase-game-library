@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="br.edu.infnet.firebasegamelibrary.LoginFragment"
+        android:name="br.edu.infnet.firebasegamelibrary.ui.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="br.edu.infnet.firebasegamelibrary.RegisterFragment"
+        android:name="br.edu.infnet.firebasegamelibrary.ui.auth.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="br.edu.infnet.firebasegamelibrary.HomeFragment"
+        android:name="br.edu.infnet.firebasegamelibrary.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -44,12 +44,12 @@
     </fragment>
     <fragment
         android:id="@+id/formFragment"
-        android:name="br.edu.infnet.firebasegamelibrary.FormFragment"
+        android:name="br.edu.infnet.firebasegamelibrary.ui.FormFragment"
         android:label="fragment_form"
         tools:layout="@layout/fragment_form" >
         <argument
             android:name="game"
-            app:argType="br.edu.infnet.firebasegamelibrary.Game"
+            app:argType="br.edu.infnet.firebasegamelibrary.model.Game"
             app:nullable="true" />
     </fragment>
 </navigation>

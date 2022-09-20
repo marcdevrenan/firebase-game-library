@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary
+package br.edu.infnet.firebasegamelibrary.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import br.edu.infnet.firebasegamelibrary.R
 import br.edu.infnet.firebasegamelibrary.databinding.GameAdapterBinding
+import br.edu.infnet.firebasegamelibrary.model.Game
 
 class GameAdapter(
     private val context: Context,
