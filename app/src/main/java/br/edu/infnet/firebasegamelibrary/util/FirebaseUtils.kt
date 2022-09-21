@@ -1,4 +1,4 @@
-package br.edu.infnet.firebasegamelibrary.utils
+package br.edu.infnet.firebasegamelibrary.util
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
