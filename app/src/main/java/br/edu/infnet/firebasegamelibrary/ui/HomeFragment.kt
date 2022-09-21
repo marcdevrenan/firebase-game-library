@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.firebasegamelibrary.R
 import br.edu.infnet.firebasegamelibrary.adapter.ViewPagerAdapter
+import br.edu.infnet.firebasegamelibrary.api.Endpoint
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentHomeBinding
+import br.edu.infnet.firebasegamelibrary.util.NetworkUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -22,6 +28,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
     private var userName: String = ""
+    private var onlineUsers: String = ""
+    private var ingameUsers: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +57,9 @@ class HomeFragment : Fragment() {
     private fun initInteractions() {
         binding.ibLogout.setOnClickListener {
             logoutUser()
+        }
+        binding.ibFreeGames.setOnClickListener {
+            getFreeGames()
         }
     }
 
@@ -83,5 +94,37 @@ class HomeFragment : Fragment() {
     private fun logoutUser() {
         auth.signOut()
         findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+    }
+
+    private fun getFreeGames() {
+        val retrofitClient = NetworkUtils.getRetrofitInstance("https://www.valvesoftware.com")
+        val endpoint = retrofitClient.create(Endpoint::class.java)
+
+        endpoint.getFreeGames().enqueue(object : retrofit2.Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                val data = mutableListOf<String>()
+                response.body()?.keySet()?.iterator()?.forEach {
+                    data.add(it)
+                }
+
+                onlineUsers = response.body()?.entrySet()?.find {
+                    it.key == "users_online"
+                }.toString()
+                ingameUsers = response.body()?.entrySet()?.find {
+                    it.key == "users_ingame"
+                }.toString()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Found $onlineUsers and $ingameUsers",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(requireContext(), "Request failed", Toast.LENGTH_LONG).show()
+            }
+
+        })
     }
 }

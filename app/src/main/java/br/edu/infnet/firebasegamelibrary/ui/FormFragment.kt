@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import br.edu.infnet.firebasegamelibrary.R
-import br.edu.infnet.firebasegamelibrary.utils.FirebaseUtils
+import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentFormBinding
 import br.edu.infnet.firebasegamelibrary.model.Game
 

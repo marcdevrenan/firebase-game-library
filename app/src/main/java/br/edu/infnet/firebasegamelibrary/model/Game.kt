@@ -1,7 +1,7 @@
 package br.edu.infnet.firebasegamelibrary.model
 
 import android.os.Parcelable
-import br.edu.infnet.firebasegamelibrary.utils.FirebaseUtils
+import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
 import kotlinx.parcelize.Parcelize
 
 
