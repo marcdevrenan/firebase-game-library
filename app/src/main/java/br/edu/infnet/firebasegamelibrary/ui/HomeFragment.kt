@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import br.edu.infnet.firebasegamelibrary.R
 import br.edu.infnet.firebasegamelibrary.adapter.ViewPagerAdapter
 import br.edu.infnet.firebasegamelibrary.api.Endpoint
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentHomeBinding
+import br.edu.infnet.firebasegamelibrary.service.Store
 import br.edu.infnet.firebasegamelibrary.util.NetworkUtils
 import com.google.android.gms.ads.AdRequest
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,11 +32,13 @@ class HomeFragment : Fragment() {
     private var userName: String = ""
     private var onlineUsers: String = ""
     private var ingameUsers: String = ""
+    private lateinit var store: Store
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        store = Store(requireContext() as AppCompatActivity)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,7 +63,11 @@ class HomeFragment : Fragment() {
             logoutUser()
         }
         binding.ibFreeGames.setOnClickListener {
-            getFreeGames()
+            getOnlineUsers()
+        }
+        binding.ibStore.setOnClickListener {
+            val product = store.products[0]
+            store.makePurchase(product)
         }
     }
 
@@ -96,7 +104,7 @@ class HomeFragment : Fragment() {
         findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
     }
 
-    private fun getFreeGames() {
+    private fun getOnlineUsers() {
         val retrofitClient = NetworkUtils.getRetrofitInstance("https://www.valvesoftware.com")
         val endpoint = retrofitClient.create(Endpoint::class.java)
 

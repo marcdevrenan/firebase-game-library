@@ -51,6 +51,7 @@ class FilesFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
 
     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

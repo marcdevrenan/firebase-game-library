@@ -22,8 +22,6 @@ class GameAdapter(
         const val SELECT_REMOVE: Int = 3
         const val SELECT_ACHIEVED: Int = 4
         const val SELECT_PICTURE: Int = 5
-        const val SELECT_EXPORT_COVER: Int = 6
-        const val SELECT_EXPORT_TEXT: Int = 7
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -80,20 +78,6 @@ class GameAdapter(
                     gameSelected(game, SELECT_ACHIEVED)
                 }
                 holder.binding.icGameAchieved.setColorFilter(
-                    ContextCompat.getColor(context, R.color.purple_500)
-                )
-
-                holder.binding.icGameExportCover.setOnClickListener {
-                    gameSelected(game, SELECT_EXPORT_COVER)
-                }
-                holder.binding.icGameExportCover.setColorFilter(
-                    ContextCompat.getColor(context, R.color.purple_500)
-                )
-
-                holder.binding.icGameExportText.setOnClickListener {
-                    gameSelected(game, SELECT_EXPORT_TEXT)
-                }
-                holder.binding.icGameExportText.setColorFilter(
                     ContextCompat.getColor(context, R.color.purple_500)
                 )
             }

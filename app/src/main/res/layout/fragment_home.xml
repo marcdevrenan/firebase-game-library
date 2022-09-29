@@ -50,7 +50,7 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintBottom_toTopOf="@+id/ibStore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtUserLogin" />
@@ -84,10 +84,21 @@
         android:layout_height="0dp"
         android:background="@color/purple_500"
         android:paddingHorizontal="12dp"
-        android:src="@drawable/ic_free_games"
+        android:src="@drawable/ic_online_users"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/adView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+    <ImageButton
+        android:id="@+id/ibStore"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:background="@color/purple_700"
+        android:paddingHorizontal="12dp"
+        android:src="@drawable/ic_store"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/adView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
