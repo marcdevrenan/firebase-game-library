@@ -8,10 +8,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.security.crypto.EncryptedFile
+import androidx.security.crypto.MasterKey
 import br.edu.infnet.firebasegamelibrary.R
-import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentFormBinding
 import br.edu.infnet.firebasegamelibrary.model.Game
+import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FormFragment : Fragment() {
@@ -42,6 +47,10 @@ class FormFragment : Fragment() {
             cardIsValid()
         }
 
+        binding.btnLocalSaveGame.setOnClickListener {
+            saveLocalFile()
+        }
+
         getArgs()
 
         binding.rgStatus.setOnCheckedChangeListener { _, id ->
@@ -51,6 +60,36 @@ class FormFragment : Fragment() {
                 else -> 2
             }
         }
+    }
+
+    private fun saveLocalFile() {
+        val masterKey = MasterKey.Builder(requireContext(), MasterKey.DEFAULT_MASTER_KEY_ALIAS)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+
+        val date = getDate()
+        val file = File(
+            requireActivity().filesDir,
+            "${binding.lblTitle.text.toString().replace(" ", "-")}-${date}.txt"
+        )
+
+        val encryptedFile = EncryptedFile.Builder(
+            requireContext(),
+            file,
+            masterKey,
+            EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+        ).build()
+
+        val fos = encryptedFile.openFileOutput()
+        fos.write("Title: ${binding.lblTitle}, Publisher: ${binding.lblPublisher}, Platform: ${binding.lblPlatform}".toByteArray())
+        Toast.makeText(requireContext(), "Saved successfully", Toast.LENGTH_LONG)
+            .show()
+        fos.close()
+    }
+
+    private fun getDate(): String {
+        val date = Calendar.getInstance().time
+        val dateTimeFormat = SimpleDateFormat("MM_dd_yyyy_HH-mm-ss", Locale.getDefault())
+        return dateTimeFormat.format(date)
     }
 
     private fun getArgs() {

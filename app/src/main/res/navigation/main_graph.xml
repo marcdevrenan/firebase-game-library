@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_homeFragment_to_formFragment"
             app:destination="@id/formFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_filesFragment"
+            app:destination="@id/filesFragment" />
     </fragment>
     <fragment
         android:id="@+id/formFragment"
@@ -52,4 +55,9 @@
             app:argType="br.edu.infnet.firebasegamelibrary.model.Game"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="br.edu.infnet.firebasegamelibrary.ui.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files" />
 </navigation>

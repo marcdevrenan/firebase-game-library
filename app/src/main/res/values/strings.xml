@@ -10,7 +10,9 @@
 
     <!--    RegisterFragment-->
     <string name="text_btn_register_fragment">Register</string>
-    
+
     <!--    FormFragment-->
     <string name="text_title_form_fragment">Adding a Game</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,18 +1,23 @@
 package br.edu.infnet.firebasegamelibrary.ui
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
 import br.edu.infnet.firebasegamelibrary.adapter.GameAdapter
 import br.edu.infnet.firebasegamelibrary.databinding.FragmentLibraryBinding
 import br.edu.infnet.firebasegamelibrary.model.Game
+import br.edu.infnet.firebasegamelibrary.util.FirebaseUtils
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -23,6 +28,8 @@ class LibraryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var gameAdapter: GameAdapter
     private val gameList = mutableListOf<Game>()
+    private val REQUEST_CODE = 8080
+    private lateinit var ivGameCover: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +50,12 @@ class LibraryFragment : Fragment() {
         binding.fabAddGame.setOnClickListener {
             val action = HomeFragmentDirections
                 .actionHomeFragmentToFormFragment(null)
+            findNavController().navigate(action)
+        }
+
+        binding.fabSavedFiles.setOnClickListener {
+            val action = HomeFragmentDirections
+                .actionHomeFragmentToFilesFragment()
             findNavController().navigate(action)
         }
     }
@@ -100,6 +113,19 @@ class LibraryFragment : Fragment() {
             GameAdapter.SELECT_REMOVE -> {
                 deleteGame(game)
             }
+            GameAdapter.SELECT_PICTURE -> {
+                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(takePictureIntent, REQUEST_CODE)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val takenImage = data?.extras?.get("data") as Bitmap
+            ivGameCover.setImageBitmap(takenImage)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 
